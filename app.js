@@ -6,6 +6,39 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET
 });
 
+// Listens to incoming messages that contain "Give me a button"
+app.message('give me a button', async ({ message, say }) => {
+    // say() sends a message to the channel where the event was triggered
+    await say({
+      blocks: [
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": `Here is your button <@${message.user}>!`
+          },
+          "accessory": {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Click Me"
+            },
+            "action_id": "button_click"
+          }
+        }
+      ],
+      text: `Here is your button <@${message.user}>!`
+    });
+});
+
+// Listens to incoming interactivity for the button with Action ID "button_click"
+app.action('button_click', async ({ body, ack, say }) => {
+    // Acknowledge the action
+    await ack();
+    await say(`<@${body.user.id}> clicked the button`);
+});
+
+
 (async () => {
   // Start your app
   await app.start(Number(process.env.PORT || 3000));
