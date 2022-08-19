@@ -119,19 +119,6 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
                   "text": "_Two of the author's cats sit aloof from the austere challenges of modern society_"
                 }
               ]
-            },
-            {
-                type: 'input',
-                block_id: 'input_a',
-                label: {
-                  type: 'plain_text',
-                  text: 'What do you think about this image?'
-                },
-                element: {
-                  type: 'plain_text_input',
-                  action_id: 'thoughtful_input',
-                  multiline: true
-                }
             }
           ]
         }
