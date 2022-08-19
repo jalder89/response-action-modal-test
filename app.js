@@ -365,48 +365,6 @@ app.view('view_2', async ({ ack, body, view, client, logger }) => {
               }
             ],
             "callback_id": "IncidentClose",
-            "state": {
-              "values": {
-                "severity_01G8TZSZYGNV020PXH7WK75N00": {
-                  "value": {
-                    "type": "static_select",
-                    "selected_option": {
-                      "text": {
-                        "type": "plain_text",
-                        "text": "Major",
-                        "emoji": true
-                      },
-                      "value": "01G8TZSZYGEZ55WPYNEK8HJ1HS"
-                    }
-                  }
-                },
-                "status": {
-                  "value": {
-                    "type": "static_select",
-                    "selected_option": {
-                      "text": {
-                        "type": "plain_text",
-                        "text": "Closed",
-                        "emoji": true
-                      },
-                      "value": "closed"
-                    }
-                  }
-                },
-                "message": {
-                  "value": {
-                    "type": "plain_text_input",
-                    "value": null
-                  }
-                }
-              }
-            },
-            "hash": "1660643619.udsoHojS",
-            "title": {
-              "type": "plain_text",
-              "text": "Close incident",
-              "emoji": true
-            },
             "clear_on_close": false,
             "notify_on_close": false,
             "close": {
@@ -418,20 +376,13 @@ app.view('view_2', async ({ ack, body, view, client, logger }) => {
               "type": "plain_text",
               "text": "Save",
               "emoji": true
-            },
-            "previous_view_id": null,
-            "root_view_id": "V03TLU53WJJ",
-            "app_id": "A01DEGPUHHC",
-            "external_id": "",
-            "app_installed_team_id": "TC7BTJR8X",
-            "bot_id": "B03R8PB607K"
+            }
           }
-      });
+    });
   
     // Do whatever you want with the input data - here we're saving it to an object then sending the user a verifcation of their submission
   
-    // Assume there's an input block with `block_1` as the block_id and `input_a`
-    const val = view['state']['values']['input_b'];
+    const val = view['state']['values'];
     const user = body['user']['id'];
   
     // Message to send user
