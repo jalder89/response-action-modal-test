@@ -23,7 +23,7 @@ app.message('give me a button', async ({ message, say }) => {
               "type": "plain_text",
               "text": "Click Me"
             },
-            "action_id": "button_click"
+            "action_id": "open_modal_a"
           }
         }
       ],
@@ -32,7 +32,7 @@ app.message('give me a button', async ({ message, say }) => {
 });
 
 // Listens to incoming interactivity for the button with Action ID "button_click"
-app.action('button_click', async ({ body, ack, client, logger }) => {
+app.action('open_modal_a', async ({ body, ack, client, logger }) => {
     // Acknowledge the action
     await ack();
     
@@ -48,7 +48,7 @@ app.action('button_click', async ({ body, ack, client, logger }) => {
             callback_id: 'view_1',
             title: {
               type: 'plain_text',
-              text: 'Modal title'
+              text: 'Modal A'
             },
             blocks: [
               {
@@ -86,13 +86,48 @@ app.action('button_click', async ({ body, ack, client, logger }) => {
             }
           }
         });
-        logger.info(result);
+        logger.info(result.view.state);
       }
       catch (error) {
         logger.error(error);
       }
 });
 
+// Handle a view_submission request
+app.view('view_1', async ({ ack, body, view, client, logger }) => {
+    // Acknowledge the view_submission request
+    await ack();
+  
+    // Do whatever you want with the input data - here we're saving it to a DB then sending the user a verifcation of their submission
+  
+    // Assume there's an input block with `block_1` as the block_id and `input_a`
+    const val = view['state']['values']['input_c'];
+    const user = body['user']['id'];
+  
+    // Message to send user
+    let msg = '';
+    // Save to DB
+    const results = await db.set(user.input, val);
+  
+    if (results) {
+      // DB save was successful
+      msg = 'Your submission was successful';
+    } else {
+      msg = 'There was an error with your submission';
+    }
+  
+    // Message the user
+    try {
+      await client.chat.postMessage({
+        channel: user,
+        text: msg
+      });
+    }
+    catch (error) {
+      logger.error(error);
+    }
+  
+  });
 
 (async () => {
   // Start your app
