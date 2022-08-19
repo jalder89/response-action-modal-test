@@ -114,7 +114,7 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
   
     if (results) {
       // DB save was successful
-      msg = 'Your submission was successful, here is your input: ' + results;
+      msg = 'Your submission was successful, here is your input: ' + JSON.stringify(results);
     } else {
       msg = 'There was an error with your submission';
     }
