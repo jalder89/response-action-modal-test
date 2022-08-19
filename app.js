@@ -86,7 +86,7 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
             }
           }
         });
-        logger.info(JSON.stringify(result.view.state));
+        logger.info(JSON.stringify(view.state));
       }
       catch (error) {
         logger.error(error);
@@ -132,7 +132,7 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
                   action_id: 'thoughtful_input',
                   multiline: true
                 }
-              }
+            }
           ]
         }
       });
