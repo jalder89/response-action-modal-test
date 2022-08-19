@@ -132,7 +132,11 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
                     "emoji": true
                 }
             }
-          ]
+          ],
+          submit: {
+            type: 'plain_text',
+            text: 'Submit'
+          }
         }
       }
       );
