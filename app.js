@@ -68,7 +68,7 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
               },
               {
                 type: 'input',
-                block_id: 'input_c',
+                block_id: 'input_a',
                 label: {
                   type: 'plain_text',
                   text: 'What are your hopes and dreams?'
@@ -86,7 +86,7 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
             }
           }
         });
-        logger.info(JSON.stringify(result.view.state));
+        logger.info(JSON.stringify(result.view.state.values));
       }
       catch (error) {
         logger.error(error);
@@ -123,9 +123,10 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
             },
             {
                 "type": "input",
+                "block_id": "input_b",
                 "element": {
                     "type": "plain_text_input",
-                    "action_id": "input_a"
+                    "action_id": "thoughtful_input"
                 },
                 "label": {
                     "type": "plain_text",
@@ -145,7 +146,7 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
     // Do whatever you want with the input data - here we're saving it to an object then sending the user a verifcation of their submission
   
     // Assume there's an input block with `block_1` as the block_id and `input_a`
-    const val = view['state']['values']['input_c'];
+    const val = view['state']['values']['input_a'];
     const user = body['user']['id'];
   
     // Message to send user
@@ -178,12 +179,14 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
 
 app.view('view_2', async ({ ack, body, view, client, logger }) => {
     // Acknowledge the view_submission request
-    await ack();
+    await ack({
+        "response_action": "clear"
+      });
   
     // Do whatever you want with the input data - here we're saving it to an object then sending the user a verifcation of their submission
   
     // Assume there's an input block with `block_1` as the block_id and `input_a`
-    const val = view['state']['values']['input_a'];
+    const val = view['state']['values']['input_b'];
     const user = body['user']['id'];
   
     // Message to send user
