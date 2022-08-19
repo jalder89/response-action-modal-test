@@ -119,6 +119,18 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
                   "text": "_Two of the author's cats sit aloof from the austere challenges of modern society_"
                 }
               ]
+            },
+            {
+                "type": "input",
+                "element": {
+                    "type": "plain_text_input",
+                    "action_id": "input_a"
+                },
+                "label": {
+                    "type": "plain_text",
+                    "text": "Label",
+                    "emoji": true
+                }
             }
           ]
         }
