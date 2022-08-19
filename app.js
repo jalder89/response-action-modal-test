@@ -86,7 +86,7 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
             }
           }
         });
-        logger.info(result.view.state);
+        logger.info(JSON.stringify(result.view.state));
       }
       catch (error) {
         logger.error(error);
@@ -96,10 +96,11 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
 // Handle a view_submission request
 app.view('view_1', async ({ ack, body, view, client, logger }) => {
     // Acknowledge the view_submission request
-    console.log(await ack({
+    await ack({
         "response_action": "push",
         "view": {
           "type": "modal",
+          "callback_id": "view_2",
           "title": {
             "type": "plain_text",
             "text": "Updated view"
@@ -118,12 +119,25 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
                   "text": "_Two of the author's cats sit aloof from the austere challenges of modern society_"
                 }
               ]
-            }
+            },
+            {
+                type: 'input',
+                block_id: 'input_a',
+                label: {
+                  type: 'plain_text',
+                  text: 'What do you think about this image?'
+                },
+                element: {
+                  type: 'plain_text_input',
+                  action_id: 'thoughtful_input',
+                  multiline: true
+                }
+              }
           ]
         }
-      }));
+      });
   
-    // Do whatever you want with the input data - here we're saving it to a DB then sending the user a verifcation of their submission
+    // Do whatever you want with the input data - here we're saving it to an object then sending the user a verifcation of their submission
   
     // Assume there's an input block with `block_1` as the block_id and `input_a`
     const val = view['state']['values']['input_c'];
@@ -139,7 +153,7 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
   
     if (results) {
       // DB save was successful
-      msg = 'Your submission was successful, here is your input: ' + JSON.stringify(results);
+      msg = 'Your submission was successful, here is your state: ' + JSON.stringify(view.state);
     } else {
       msg = 'There was an error with your submission';
     }
@@ -155,7 +169,45 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
       logger.error(error);
     }
   
-  });
+});
+
+app.view('view_2', async ({ ack, body, view, client, logger }) => {
+    // Acknowledge the view_submission request
+    await ack();
+  
+    // Do whatever you want with the input data - here we're saving it to an object then sending the user a verifcation of their submission
+  
+    // Assume there's an input block with `block_1` as the block_id and `input_a`
+    const val = view['state']['values']['input_a'];
+    const user = body['user']['id'];
+  
+    // Message to send user
+    let msg = '';
+    // Save to DB
+    const results = {
+        "input": user.input, 
+        "value": val
+    };
+  
+    if (results) {
+      // DB save was successful
+      msg = 'Your submission was successful, here is your state: ' + JSON.stringify(view.state);
+    } else {
+      msg = 'There was an error with your submission';
+    }
+  
+    // Message the user
+    try {
+      await client.chat.postMessage({
+        channel: user,
+        text: msg
+      });
+    }
+    catch (error) {
+      logger.error(error);
+    }
+  
+});
 
 (async () => {
   // Start your app
