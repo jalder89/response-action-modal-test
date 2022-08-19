@@ -101,6 +101,7 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
         "response_action": "push",
         "view": {
           "type": "modal",
+          "callback_id": "view_2",
           "title": {
             "type": "plain_text",
             "text": "Updated view"
