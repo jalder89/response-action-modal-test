@@ -380,17 +380,13 @@ app.view('view_2', async ({ ack, body, view, client, logger }) => {
           }
     });
   
-    // Do whatever you want with the input data - here we're saving it to an object then sending the user a verifcation of their submission
-  
-    const val = view['state']['values'];
     const user = body['user']['id'];
   
     // Message to send user
     let msg = '';
     // Save to DB
     const results = {
-        "input": user.input, 
-        "value": val
+        "input": user.input,
     };
   
     if (results) {
@@ -413,7 +409,7 @@ app.view('view_2', async ({ ack, body, view, client, logger }) => {
   
 });
 
-app.view('IncidentClose', async ({ack, body, view, client, logger}) => {
+app.view('IncidentClose', async ({ack, view}) => {
     await ack({
         "response_action": "clear"
     });
