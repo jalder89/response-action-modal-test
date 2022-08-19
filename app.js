@@ -96,7 +96,32 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
 // Handle a view_submission request
 app.view('view_1', async ({ ack, body, view, client, logger }) => {
     // Acknowledge the view_submission request
-    await ack();
+    console.log(await ack({
+        "response_action": "push",
+        "view": {
+          "type": "modal",
+          "title": {
+            "type": "plain_text",
+            "text": "Updated view"
+          },
+          "blocks": [
+            {
+              "type": "image",
+              "image_url": "https://api.slack.com/img/blocks/bkb_template_images/plants.png",
+              "alt_text": "Plants"
+            },
+            {
+              "type": "context",
+              "elements": [
+                {
+                  "type": "mrkdwn",
+                  "text": "_Two of the author's cats sit aloof from the austere challenges of modern society_"
+                }
+              ]
+            }
+          ]
+        }
+      }));
   
     // Do whatever you want with the input data - here we're saving it to a DB then sending the user a verifcation of their submission
   
