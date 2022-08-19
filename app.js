@@ -107,11 +107,14 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
     // Message to send user
     let msg = '';
     // Save to DB
-    const results = await db.set(user.input, val);
+    const results = {
+        "input": user.input, 
+        "value": val
+    };
   
     if (results) {
       // DB save was successful
-      msg = 'Your submission was successful';
+      msg = 'Your submission was successful, here is your input: ' + results;
     } else {
       msg = 'There was an error with your submission';
     }
