@@ -32,7 +32,7 @@ app.message('give me a button', async ({ message, say }) => {
 });
 
 // Listens to incoming interactivity for the button with Action ID "button_click"
-app.action('button_click', async ({ body, ack, logger }) => {
+app.action('button_click', async ({ body, ack, client, logger }) => {
     // Acknowledge the action
     await ack();
     
