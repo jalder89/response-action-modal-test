@@ -86,7 +86,7 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
             }
           }
         });
-        logger.info(JSON.stringify(view.state));
+        logger.info(JSON.stringify(result.view.state));
       }
       catch (error) {
         logger.error(error);
@@ -96,46 +96,48 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
 // Handle a view_submission request
 app.view('view_1', async ({ ack, body, view, client, logger }) => {
     // Acknowledge the view_submission request
-    await ack({
-        "response_action": "push",
-        "view": {
-          "type": "modal",
-          "external_id": "view_2",
-          "title": {
-            "type": "plain_text",
-            "text": "Updated view"
-          },
-          "blocks": [
-            {
-              "type": "image",
-              "image_url": "https://api.slack.com/img/blocks/bkb_template_images/plants.png",
-              "alt_text": "Plants"
-            },
-            {
-              "type": "context",
-              "elements": [
-                {
-                  "type": "mrkdwn",
-                  "text": "_Two of the author's cats sit aloof from the austere challenges of modern society_"
-                }
-              ]
-            },
-            {
-                type: 'input',
-                block_id: 'input_a',
-                label: {
-                  type: 'plain_text',
-                  text: 'What do you think about this image?'
-                },
-                element: {
-                  type: 'plain_text_input',
-                  action_id: 'thoughtful_input',
-                  multiline: true
-                }
-            }
-          ]
-        }
-      });
+    await ack(
+    //     {
+    //     "response_action": "push",
+    //     "view": {
+    //       "type": "modal",
+    //       "external_id": "view_2",
+    //       "title": {
+    //         "type": "plain_text",
+    //         "text": "Updated view"
+    //       },
+    //       "blocks": [
+    //         {
+    //           "type": "image",
+    //           "image_url": "https://api.slack.com/img/blocks/bkb_template_images/plants.png",
+    //           "alt_text": "Plants"
+    //         },
+    //         {
+    //           "type": "context",
+    //           "elements": [
+    //             {
+    //               "type": "mrkdwn",
+    //               "text": "_Two of the author's cats sit aloof from the austere challenges of modern society_"
+    //             }
+    //           ]
+    //         },
+    //         {
+    //             type: 'input',
+    //             block_id: 'input_a',
+    //             label: {
+    //               type: 'plain_text',
+    //               text: 'What do you think about this image?'
+    //             },
+    //             element: {
+    //               type: 'plain_text_input',
+    //               action_id: 'thoughtful_input',
+    //               multiline: true
+    //             }
+    //         }
+    //       ]
+    //     }
+    //   }
+      );
   
     // Do whatever you want with the input data - here we're saving it to an object then sending the user a verifcation of their submission
   
