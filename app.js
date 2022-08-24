@@ -35,6 +35,7 @@ app.message('give me a button', async ({ message, say }) => {
 app.action('open_modal_a', async ({ body, ack, client, logger }) => {
     // Acknowledge the action
     await ack();
+    const callback_id = "view_1";
     
     try {
         // Call views.open with the built-in client
@@ -45,7 +46,7 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
           view: {
             type: 'modal',
             // View identifier
-            callback_id: 'view_1',
+            callback_id: callback_id,
             external_id: `${callback_id}` + "_external",
             title: {
               type: 'plain_text',
