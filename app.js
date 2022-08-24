@@ -46,6 +46,7 @@ app.action('open_modal_a', async ({ body, ack, client, logger }) => {
             type: 'modal',
             // View identifier
             callback_id: 'view_1',
+            external_id: `${callback_id}` + "_external",
             title: {
               type: 'plain_text',
               text: 'Modal A'
@@ -159,7 +160,7 @@ app.view('view_1', async ({ ack, body, view, client, logger }) => {
   
     if (results) {
       // DB save was successful
-      msg = 'Your submission was successful, here is your state: ' + JSON.stringify(view.state);
+      msg = 'Your submission was successful, here is your state: ' + JSON.stringify(`${view.state}` + "Origin external_id:" + view.external_id);
     } else {
       msg = 'There was an error with your submission';
     }
